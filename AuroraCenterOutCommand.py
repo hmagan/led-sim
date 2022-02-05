@@ -16,18 +16,25 @@ class AuroraCenterOutCommand:
 
     def __init__(self, led):
         self.led = led
-        halfGradient = self.bezier_gradient(self.colors, int(self.led.getBufferLength() / 2.0))["gradient"]
-        self.gradient = [None] * self.led.getBufferLength()
+        n = 18
+        halfGradient = self.bezier_gradient(self.colors, n)["gradient"]
+        self.gradient = [None] * n
 
-        if self.led.getBufferLength() % 2 == 0: 
-            for i in range(0, len(halfGradient["r"])): 
-                idx = len(halfGradient["r"]) - i - 1
-                self.gradient[i] = [halfGradient["r"][idx], halfGradient["g"][idx], halfGradient["b"][idx]]
-            for i in range(len(halfGradient["r"]), self.led.getBufferLength()): 
-                idx = i - len(halfGradient["r"])
-                self.gradient[i] = [halfGradient["r"][idx], halfGradient["g"][idx], halfGradient["b"][idx]]
-        else: 
-            pass
+        for i in range(0, n):
+            self.gradient[i] = [halfGradient["r"][i], halfGradient["g"][i], halfGradient["b"][i]]
+
+        # if self.led.getBufferLength() % 2 == 0: 
+        #     for i in range(0, len(halfGradient["r"])): 
+        #         idx = len(halfGradient["r"]) - i - 1
+        #         self.gradient[i] = [halfGradient["r"][idx], halfGradient["g"][idx], halfGradient["b"][idx]]
+        #     for i in range(len(halfGradient["r"]), self.led.getBufferLength()): 
+        #         idx = i - len(halfGradient["r"])
+        #         self.gradient[i] = [halfGradient["r"][idx], halfGradient["g"][idx], halfGradient["b"][idx]]
+        # else: 
+        #     pass
+
+        for grad in self.gradient:
+            print(grad)
 
     def hex_to_RGB(self, hex):
         ''' "#FFFFFF" -> [255,255,255] '''
